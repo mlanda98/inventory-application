@@ -7,6 +7,12 @@
 </head>
 <body>
   <h1>Add a New Song</h1>
-  <form
+  <form action="/songs" method="POST">
+    <label>Title:</label><input type="text" name="title" required><br>
+    <label>Artist:</label><input type="text" name="artist" required><br>
+    <label>Album:</label><input type="text" name="album"><br>
+    <label>Quantity:</label><input type="number" name="quantity"><br>
+    <button type="submit">Add Song</button>
+  </form>
 </body>
 </html>
