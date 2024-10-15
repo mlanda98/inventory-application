@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Music Inventory</title>
+</head>
+<body>
+  <h1>Music Inventory</h1>
+  <ul>
+    <% songs.forEach(song => { %>
+      <li>
+        <strong><%= song.title %></strong> by <%= song.artist %>
+        - <a href="/songs/<%= song.id %>">View Details</a>
+      </li>
+    <% }) %>
+  </ul>
+  <a href="/songs/new">Add New Song</a>
+</body>
+</html>
