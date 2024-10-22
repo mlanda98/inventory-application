@@ -18,6 +18,23 @@ app.get("/", async (req, res) => {
   }
 });
 
+app.get("/songs/:id", async (req, res) => {
+  const songId = req.params.id;
+  
+  try{
+  const result = await pool.query("SELECT * FROM songs WHERE id = $1", [songId]);
+  const song = result.rows[0];
+
+  if (!song){
+    return res.status(404).send("Song not found");
+  }
+
+  res.render("song-details", {song});
+  } catch (err){
+    console.err("Error fetching song details:", err);
+    res.status(500).send("Error fetching song details")
+  }
+})
 app.get("/songs/new", (req, res) => {
   res.render("add-song");
 });
@@ -34,7 +51,7 @@ app.post("/songs", async (req, res) => {
     await pool.query(query, values);
     res.redirect("/");
   } catch (err){
-    console.error("Error adding song:", err);
+    console.error("Error adding song", err);
     res.status(500).send("Error adding song");
   }
 });
