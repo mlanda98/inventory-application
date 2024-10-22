@@ -2,13 +2,19 @@ const express = require("express");
 const app = express();
 require("dotenv").config();
 
+
+app.set("view engine", "ejs");
+app.use(express.static("public"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 app.get("/", async (req, res) => {
   try{
     const result = await pool.query("SELECT * FROM songs");
     res.render("index", {songs: result.rows});
   } catch (err){
     console.error("Error fetching songs:", err);
-    res.status(500).send("Error fetching songs");å
+    res.status(500).send("Error fetching songs");
   }
 });
 
@@ -20,9 +26,9 @@ app.post("/songs", async (req, res) => {
   const {title, artist, album, genre, quantity} = req.body;
 
   const query = `
-  INSERT INTO songs (title, artist, album, quantity)
-  VALUES ($1, $2, $3, $4, $5, $6, $7) RETURNING *`;
-  const values = [title, artist, album, quantity];
+  INSERT INTO songs (title, artist, album, genre, quantity)
+  VALUES ($1, $2, $3, $4, $5) RETURNING *`;
+  const values = [title, artist, album, genre, quantity];
 
   try{
     await pool.query(query, values);
@@ -38,9 +44,7 @@ app.listen(3000, () => {
 });
 
 
-app.set("view engine", "ejs");
-app.use(express.static("public"));
-app.use(express.json());
+
 
 const { Pool } = require('pg');
 
