@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Songs</title>
+</head>
+<body>
+  <h1>All Songs</h1>
+  <ul>
+    <% songs.forEach(song => { %>
+      <li><%= song.title %> - <%= song.artist %></li>
+    <% }); %>
+  </ul>
+  <button onclick="window.location.href='/'">Back to Home</button>
+</body>
+</html>

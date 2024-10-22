@@ -7,14 +7,8 @@
 </head>
 <body>
   <h1>Music Inventory</h1>
-  <ul>
-    <% songs.forEach(song => { %>
-      <li>
-        <strong><%= song.title %></strong> by <%= song.artist %>
-        - <a href="/songs/<%= song.id %>">View Details</a>
-      </li>
-    <% }) %>
-  </ul>
+  <button onclick="window.location.href='/songs'">All Songs</button>
+  <button onclick="window.location.href='/songs/genres'">Genres</button>
   <a href="/songs/new">Add New Song</a>
 </body>
 </html>
