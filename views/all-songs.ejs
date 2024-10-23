@@ -9,7 +9,12 @@
   <h1>All Songs</h1>
   <ul>
     <% songs.forEach(song => { %>
-      <li><%= song.title %> - <%= song.artist %></li>
+      <li>
+        <%= song.title %> by <%= song.artist %>
+        <form action="/songs/delete/<%= song.id %>" method="POST" style="display:inline;">
+          <button type="submit">Delete</button>
+        </form>
+      </li>
     <% }); %>
   </ul>
   <button onclick="window.location.href='/'">Back to Home</button>

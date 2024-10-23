@@ -25,4 +25,36 @@ router.get("/genres", async (req, res) => {
     res.status(500).send("Error fetching genres");
   }
 });
+
+router.post("/delete/:id", async (req, res) => {
+  const songId = req.params.id;
+
+  try{
+    await pool.query("DELETE FROM songs WHERE id = $1", [songId]);
+    res.redirect("/songs");
+  } catch (err) {
+    console.error("Error deleting song:", err);
+    res.status(500).send("Error deleting song");
+  }
+})
+
+router.get("/new", (req, res) => {
+  res.render("add-song");
+});
+
+router.post("/", async (req, res) =>{
+  const {title, artist, album, genre, quantity} = req.body;
+  const query = `
+  INSERT INTO songs (title, artist, album, genre, quantity)
+  VALUES ($1, $2, $3, $4, $5) RETURNING *`;
+  const values = [title, artist, album, genre, quantity];
+
+  try{
+    await pool.query(query, values);
+    res.redirect("/songs");
+  } catch (err){
+    console.error("Error adding song:", err);
+    res.status(500).send("Error adding song")
+  }
+})
 module.exports = router;
