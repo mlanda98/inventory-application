@@ -6,17 +6,35 @@
   <title>All Songs</title>
 </head>
 <body>
-  <h1>All Songs</h1>
-  <ul>
+  <table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Artist</th>
+      <th>Album</th>
+      <th>Genre</th>
+      <th>Quantity</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
     <% songs.forEach(song => { %>
-      <li>
-        <%= song.title %> by <%= song.artist %>
-        <form action="/songs/delete/<%= song.id %>" method="POST" style="display:inline;">
-          <button type="submit">Delete</button>
-        </form>
-      </li>
-    <% }); %>
-  </ul>
-  <button onclick="window.location.href='/'">Back to Home</button>
+      <tr>
+        <td><%= song.title %></td>
+        <td><%= song.artist %></td>
+        <td><%= song.album %></td>
+        <td><%= song.genre %></td>
+        <td><%= song.quantity %></td>
+        <td>
+          <a href="/songs/edit/<%= song.id %>">Edit</a>
+          <form action="/songs/delete/<%= song.id %>" method="POST" style="display:inline;">
+            <button type="submit">Delete</button>
+          </form>
+        </td>
+      </tr>
+    <% }) %>
+  </tbody>
+</table>
+
 </body>
 </html>

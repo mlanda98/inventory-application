@@ -26,35 +26,71 @@ router.get("/genres", async (req, res) => {
   }
 });
 
+router.get("/edit/:id", async (req, res) => {
+  const songId = req.params.id;
+  try {
+    const result = await pool.query("SELECT * FROM songs WHERE id = $1", [
+      songId,
+    ]);
+    const song = result.rows[0];
+
+    if (!song) {
+      return res.status(404).send("Song not found");
+    }
+
+    res.render("edit-song", { song });
+  } catch (err) {
+    console.error("Error fetching song for update:", err);
+    res.status(500).send("Error fetching song for update");
+  }
+});
 router.post("/delete/:id", async (req, res) => {
   const songId = req.params.id;
 
-  try{
+  try {
     await pool.query("DELETE FROM songs WHERE id = $1", [songId]);
     res.redirect("/songs");
   } catch (err) {
     console.error("Error deleting song:", err);
     res.status(500).send("Error deleting song");
   }
-})
+});
 
 router.get("/new", (req, res) => {
   res.render("add-song");
 });
 
-router.post("/", async (req, res) =>{
-  const {title, artist, album, genre, quantity} = req.body;
+router.post("/update/:id", async (req, res) => {
+  const songId = req.params.id;
+  const { title, artist, album, genre, quantity } = req.body;
+
+  const query = `UPDATE songs
+   SET title = $1, artist = $2, album = $3, genre = $4, quantity = $5
+   WHERE id = $6 RETURNING *
+  `;
+  const values = [title, artist, album, genre, quantity, songId];
+  try {
+    await pool.query(query, values);
+    res.redirect("/songs");
+  } catch (err) {
+    console.error("Error updating song:", err);
+    res.status(500).send("Error updating song");
+  }
+});
+router.post("/", async (req, res) => {
+  const { title, artist, album, genre, quantity } = req.body;
   const query = `
   INSERT INTO songs (title, artist, album, genre, quantity)
   VALUES ($1, $2, $3, $4, $5) RETURNING *`;
   const values = [title, artist, album, genre, quantity];
 
-  try{
+  try {
     await pool.query(query, values);
     res.redirect("/songs");
-  } catch (err){
+  } catch (err) {
     console.error("Error adding song:", err);
-    res.status(500).send("Error adding song")
+    res.status(500).send("Error adding song");
   }
-})
+});
+
 module.exports = router;
