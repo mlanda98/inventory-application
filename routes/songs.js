@@ -3,33 +3,26 @@ const router = express.Router();
 const pool = require("../db");
 
 router.get("/", async (req, res) => {
-  try{
+  try {
     const result = await pool.query("SELECT * FROM songs");
-    res.render("all-songs", {songs: result.rows});
-  } catch (err){
+    res.render("all-songs", { songs: result.rows });
+  } catch (err) {
     console.error("Error fetching songs:", err);
-    res.status(500).send("Error  fetching songs");
+    res.status(500).send("Error fetching songs");
   }
-
 });
 
 router.get("/genres", async (req, res) => {
-  try{
+  try {
     const result = await pool.query(`
-      SELECT genre, array_agg(title) as songs
+      SELECT genre, array_agg(title) AS songs
       FROM songs
-      GROUP BY genre
-      ORDER BY genre;
+      GROUP BY genre;
       `);
-    res.render("genres", {genres: result.rows});
+    res.render("genres", { genres: result.rows });
   } catch (err) {
     console.error("Error fetching genres:", err);
     res.status(500).send("Error fetching genres");
   }
-}) 
-
-module.exports = router
-
-
-
-
+});
+module.exports = router;

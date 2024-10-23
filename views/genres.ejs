@@ -7,14 +7,14 @@
 </head>
 <body>
   <h1>Genres</h1>
-  <% genres.forEach(genre => { %>
-  <h2><%= genre.genre %></h2>
   <ul>
-    <% genre.songs.forEach(song => { %>
-      <li><%= song %></li>
-    <% }) %>
+    <% genres.forEach(genre => { %>
+      <li>
+        <strong><%= genre.genre %></strong>:
+        <%= genre.songs.join(", ") %> 
+      </li> 
+    <% }); %>
   </ul>
-<% }); %>
 <button onclick="window.location.href='/'">Back to Home</button>
 </body>
 </html>
