@@ -1,12 +1,6 @@
-# inventory-application# mini-message-board
+# inventory-application
 
 A full-featured Inventory Management Web App built with Node.js, Express, PostgreSQL, and EJS. This application allows users to create, view, update, and delete categories and items in an inventory for any type of store – from musical instruments to groceries. Designed to practice full-stack development with real database relations and backend logic.
-
----
-
-🚀 Demo
-
- ![App Demo](dem.gif)
 
 ---
 
